@@ -12,6 +12,7 @@ class UsersListViewController: UIViewController {
 
     private var viewModel: UsersListViewModel!
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private var dataSource: UITableViewDiffableDataSource<UserListSection, UserCellViewModel>!
 
     init(viewModel: UsersListViewModel) {
         self.viewModel = viewModel
@@ -25,10 +26,42 @@ class UsersListViewController: UIViewController {
     override func loadView() {
         view = tableView
         title = "Users"
+
+        tableView.register(
+            UserTableViewCell.self,
+            forCellReuseIdentifier: UserTableViewCell.reuseIdentifier
+        )
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupDataSource()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Task { try await viewModel.loadData() }
+    }
+
+    override func updateProperties() {
+        dataSource.apply(viewModel.snapshot)
+    }
+
+    private func setupDataSource() {
+        dataSource = UITableViewDiffableDataSource<UserListSection, UserCellViewModel>(tableView: tableView) { tableView, indexPath, viewModel in
+            let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.reuseIdentifier, for: indexPath) as! UserTableViewCell
+            cell.configure(with: viewModel)
+            return cell
+        }
+        dataSource.defaultRowAnimation = .fade
+    }
+}
+
+
+
+
+extension UsersListViewController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        print("Prefetch at: ", indexPaths)
     }
 }
