@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		740B48E12F92E1C800B67FD9 /* ImageLoader in Frameworks */ = {isa = PBXBuildFile; productRef = 740B48E02F92E1C800B67FD9 /* ImageLoader */; };
 		74953A5F2F92823A0092D854 /* NetworkLayer in Frameworks */ = {isa = PBXBuildFile; productRef = 74953A5E2F92823A0092D854 /* NetworkLayer */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74953A5F2F92823A0092D854 /* NetworkLayer in Frameworks */,
+				740B48E12F92E1C800B67FD9 /* ImageLoader in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +94,7 @@
 			name = StackOverflowDemo;
 			packageProductDependencies = (
 				74953A5E2F92823A0092D854 /* NetworkLayer */,
+				740B48E02F92E1C800B67FD9 /* ImageLoader */,
 			);
 			productName = StackOverflowDemo;
 			productReference = 7495398C2F9251940092D854 /* StackOverflowDemo.app */;
@@ -369,6 +372,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		740B48E02F92E1C800B67FD9 /* ImageLoader */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ImageLoader;
+		};
 		74953A5E2F92823A0092D854 /* NetworkLayer */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 74953A5C2F92823A0092D854 /* XCLocalSwiftPackageReference "Modules/NetworkLayer" */;
