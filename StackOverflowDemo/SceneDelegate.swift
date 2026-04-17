@@ -5,6 +5,7 @@
 //  Created by Davide Sibilio on 17/04/26.
 //
 
+import NetworkLayer
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -18,8 +19,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
+        let provider = NetworkProvider(StackOverflowAPI())
+        let viewModel = UsersListViewModel(provider)
         let navigationController = UINavigationController(
-            rootViewController: UsersListViewController()
+            rootViewController: UsersListViewController(viewModel: viewModel)
         )
         navigationController.navigationBar.prefersLargeTitles = true
         window?.rootViewController = navigationController
