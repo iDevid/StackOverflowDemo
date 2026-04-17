@@ -34,7 +34,7 @@ public extension Endpoint {
         if case .query = self.requestEncoding {
             components.queryItems = self.request.queryItems
         }
-        components.path = self.path
+        components.path.append(self.path)
 
         guard let url = components.url else {
             throw URLRequestTransformableError.resultURLNotValid

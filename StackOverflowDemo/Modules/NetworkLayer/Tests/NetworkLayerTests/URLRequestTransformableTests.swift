@@ -31,4 +31,17 @@ import Foundation
 
         #expect(request.cachePolicy == .reloadIgnoringCacheData)
     }
+
+    @Test func verifyURLWithVersionedAPI() throws {
+        struct VersionedAPI: API {
+            let base: URL = URL(string: "https://api.com/2.0/")!
+        }
+
+        let endpoint = SimpleTestEndpoint()
+        let api = VersionedAPI()
+        let request = try endpoint.getRequest(withAPI: api)
+
+        #expect(request.url?.absoluteString.contains("api.com/2.0/test") == true)
+    }
+
 }
