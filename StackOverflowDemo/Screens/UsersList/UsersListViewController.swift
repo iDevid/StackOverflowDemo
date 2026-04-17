@@ -56,12 +56,3 @@ class UsersListViewController: UIViewController {
         dataSource.defaultRowAnimation = .fade
     }
 }
-
-
-
-
-extension UsersListViewController: UITableViewDataSourcePrefetching {
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        print("Prefetch at: ", indexPaths)
-    }
-}
