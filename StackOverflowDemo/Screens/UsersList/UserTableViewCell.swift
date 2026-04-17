@@ -9,6 +9,8 @@ class UserTableViewCell: UITableViewCell {
     private let reputationBadge = UILabel()
     private let followButton = UIButton()
 
+    private weak var viewModel: UserCellViewModel?
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -17,6 +19,10 @@ class UserTableViewCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepareForReuse() {
+        viewModel = nil
     }
 
     private func setupUI() {
@@ -81,6 +87,25 @@ class UserTableViewCell: UITableViewCell {
         nameLabel.text = viewModel.name
         reputationBadge.text = viewModel.reputation
         configureFollowButton(isFollowed: viewModel.isFollowed)
+        self.viewModel = viewModel
+    }
+
+    override func updateProperties() {
+        guard let viewModel else { return }
+        configureImage(viewModel.image)
+    }
+
+    private func configureImage(_ imageState: AsyncImageState) {
+        switch imageState {
+        case .placeholder:
+            avatarImageView.image = nil
+        case .loading:
+            avatarImageView.image = nil
+        case .available(let image):
+            avatarImageView.image = image
+        case .notAvailable:
+            avatarImageView.image = UIImage(systemName: "person")
+        }
     }
 
     private func configureFollowButton(isFollowed: Bool) {

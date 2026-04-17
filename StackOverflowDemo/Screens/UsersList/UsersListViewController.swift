@@ -31,6 +31,7 @@ class UsersListViewController: UIViewController {
             UserTableViewCell.self,
             forCellReuseIdentifier: UserTableViewCell.reuseIdentifier
         )
+        tableView.delegate = self
     }
 
     override func viewDidLoad() {
@@ -54,5 +55,15 @@ class UsersListViewController: UIViewController {
             return cell
         }
         dataSource.defaultRowAnimation = .fade
+    }
+}
+
+extension UsersListViewController: UITableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        viewModel.notifyWillDisplayCell(at: indexPath)
     }
 }

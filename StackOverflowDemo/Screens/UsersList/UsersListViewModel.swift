@@ -5,6 +5,7 @@
 //  Created by Davide Sibilio on 17/04/26.
 //
 
+import ImageLoader
 import NetworkLayer
 import UIKit
 
@@ -22,17 +23,24 @@ class UsersListViewModel {
     }
 
     private let networkProvider: NetworkProvider
+    private let imageLoader: ImageLoading
 
     var currentPage: Int = 1
     var snapshot: UserSnapshot = UserSnapshot()
 
-    init(_ networkProvider: NetworkProvider) {
+    init(_ networkProvider: NetworkProvider, imageLoader: ImageLoading) {
         self.networkProvider = networkProvider
+        self.imageLoader = imageLoader
         self.snapshot = UserSnapshot()
     }
 
     func loadData() async throws {
         try await fetchUsersForCurrentPage()
+    }
+
+    func notifyWillDisplayCell(at indexPath: IndexPath) {
+        let viewModel = snapshot.itemIdentifiers[indexPath.row]
+        viewModel.loadImage(imageLoader)
     }
 
     private func fetchUsersForCurrentPage() async throws {

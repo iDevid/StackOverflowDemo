@@ -5,6 +5,7 @@
 //  Created by Davide Sibilio on 17/04/26.
 //
 
+import ImageLoader
 import NetworkLayer
 import UIKit
 
@@ -20,7 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         let provider = NetworkProvider(StackOverflowAPI())
-        let viewModel = UsersListViewModel(provider)
+        let imageLoader = ImageLoader()
+        let viewModel = UsersListViewModel(provider, imageLoader: imageLoader)
         let navigationController = UINavigationController(
             rootViewController: UsersListViewController(viewModel: viewModel)
         )
