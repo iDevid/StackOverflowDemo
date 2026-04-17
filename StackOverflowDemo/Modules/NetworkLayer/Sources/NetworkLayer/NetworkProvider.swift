@@ -41,10 +41,3 @@ public class NetworkProvider {
         }
     }
 }
-
-public enum NetworkError: Error {
-    case invalidResponse
-    case clientError(Int)
-    case serverError(Int)
-    case unknownStatusCode(Int)
-}

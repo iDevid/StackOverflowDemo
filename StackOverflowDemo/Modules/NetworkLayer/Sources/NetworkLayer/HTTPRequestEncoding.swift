@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum HTTPRequestEncoding {
+public enum HTTPRequestEncoding {
     case query
     case body
 }
