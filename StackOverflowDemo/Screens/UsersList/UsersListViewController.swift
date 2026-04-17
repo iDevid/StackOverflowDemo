@@ -26,4 +26,9 @@ class UsersListViewController: UIViewController {
         view = tableView
         title = "Users"
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Task { try await viewModel.loadData() }
+    }
 }
