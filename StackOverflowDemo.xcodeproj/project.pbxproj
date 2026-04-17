@@ -14,7 +14,7 @@
 		7495399E2F9251960092D854 /* Exceptions for "StackOverflowDemo" folder in "StackOverflowDemo" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				Resources/Info.plist,
 			);
 			target = 7495398B2F9251940092D854 /* StackOverflowDemo */;
 		};
@@ -147,7 +147,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4P9Z98WQAA;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = StackOverflowDemo/Info.plist;
+				INFOPLIST_FILE = StackOverflowDemo/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -179,7 +179,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4P9Z98WQAA;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = StackOverflowDemo/Info.plist;
+				INFOPLIST_FILE = StackOverflowDemo/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
