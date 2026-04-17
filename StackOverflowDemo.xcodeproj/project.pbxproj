@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		74953A5F2F92823A0092D854 /* NetworkLayer in Frameworks */ = {isa = PBXBuildFile; productRef = 74953A5E2F92823A0092D854 /* NetworkLayer */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		7495398C2F9251940092D854 /* StackOverflowDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StackOverflowDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74953A5F2F92823A0092D854 /* NetworkLayer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				7495398E2F9251940092D854 /* StackOverflowDemo */,
+				74953A5D2F92823A0092D854 /* Frameworks */,
 				7495398D2F9251940092D854 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,6 +62,13 @@
 				7495398C2F9251940092D854 /* StackOverflowDemo.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		74953A5D2F92823A0092D854 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -78,6 +91,7 @@
 			);
 			name = StackOverflowDemo;
 			packageProductDependencies = (
+				74953A5E2F92823A0092D854 /* NetworkLayer */,
 			);
 			productName = StackOverflowDemo;
 			productReference = 7495398C2F9251940092D854 /* StackOverflowDemo.app */;
@@ -107,6 +121,9 @@
 			);
 			mainGroup = 749539832F9251940092D854;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				74953A5C2F92823A0092D854 /* XCLocalSwiftPackageReference "Modules/NetworkLayer" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7495398D2F9251940092D854 /* Products */;
 			projectDirPath = "";
@@ -345,6 +362,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		74953A5C2F92823A0092D854 /* XCLocalSwiftPackageReference "Modules/NetworkLayer" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Modules/NetworkLayer;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		74953A5E2F92823A0092D854 /* NetworkLayer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 74953A5C2F92823A0092D854 /* XCLocalSwiftPackageReference "Modules/NetworkLayer" */;
+			productName = NetworkLayer;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 749539842F9251940092D854 /* Project object */;
 }
