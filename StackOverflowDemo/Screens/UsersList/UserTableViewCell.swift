@@ -58,11 +58,18 @@ class UserTableViewCell: UITableViewCell {
 
         followButton.translatesAutoresizingMaskIntoConstraints = false
         var configuration = UIButton.Configuration.filled()
-        configuration.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
+        configuration.contentInsets = .init(top: 8, leading: 8, bottom: 8, trailing: 8)
         configuration.cornerStyle = .capsule
         configuration.imagePadding = 4
+        configuration.imagePlacement = .trailing
+        configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.foregroundColor = UIColor.white
+            outgoing.font = .boldSystemFont(ofSize: 10)
+            return outgoing
+        }
+        configuration.preferredSymbolConfigurationForImage = .init(pointSize: 10)
         followButton.configuration = configuration
-        followButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
         followButton.addTarget(self, action: #selector(followButtonTapped), for: .touchUpInside)
         contentView.addSubview(followButton)
     }
@@ -88,8 +95,8 @@ class UserTableViewCell: UITableViewCell {
 
             followButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             followButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            followButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 100),
-            followButton.heightAnchor.constraint(equalToConstant: 32),
+            followButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 60),
+            followButton.heightAnchor.constraint(equalToConstant: 24),
 
             contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 72),
         ])
@@ -157,5 +164,6 @@ class UserTableViewCell: UITableViewCell {
         followButton.configuration?.showsActivityIndicator = followState == .loading
         followButton.setTitle(title, for: .normal)
         followButton.setImage(image, for: .normal)
+        followButton.tintColor = followState == .following ? .systemBlue : .systemGray2
     }
 }
