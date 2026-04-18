@@ -36,6 +36,7 @@ class UserCellViewModel: Identifiable {
 
     private let imageUrlString: String
     private let followUserRepository: FollowedUserRepository
+    private var imageLoadTask: Task<Void, Never>?
 
     init(user: StackOverflowUser, followUserRepository: FollowedUserRepository) {
         self.id = user.id
@@ -58,8 +59,9 @@ class UserCellViewModel: Identifiable {
 
     func loadImageIfNeeded(_ loader: ImageLoading) {
         guard !image.isAvailableOrLoading else { return }
-        Task {
-            image = .loading
+        imageLoadTask?.cancel()
+        image = .loading
+        imageLoadTask = Task {
             do {
                 let uiImage = try await loader.loadImage(
                     from: imageUrlString,
@@ -67,6 +69,7 @@ class UserCellViewModel: Identifiable {
                 )
                 self.image = .available(uiImage)
             } catch {
+                guard !Task.isCancelled else { return }
                 print("Error Loading Image for: \(self.name)")
                 self.image = .notAvailable
             }

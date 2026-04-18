@@ -5,6 +5,7 @@ class UserTableViewCell: UITableViewCell {
     static let reuseIdentifier = "UserTableViewCell"
 
     private let avatarImageView = UIImageView()
+    private let avatarImageLoadingIndicator = UIActivityIndicatorView()
     private let nameLabel = UILabel()
     private let reputationBadge = UILabel()
     private let followButton = UIButton()
@@ -36,6 +37,9 @@ class UserTableViewCell: UITableViewCell {
         avatarImageView.backgroundColor = .systemGray5
 
         contentView.addSubview(avatarImageView)
+
+        avatarImageView.addSubview(avatarImageLoadingIndicator)
+        avatarImageLoadingIndicator.translatesAutoresizingMaskIntoConstraints = false
 
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.font = .systemFont(ofSize: 16, weight: .semibold)
@@ -69,6 +73,10 @@ class UserTableViewCell: UITableViewCell {
             avatarImageView.widthAnchor.constraint(equalToConstant: 48),
             avatarImageView.heightAnchor.constraint(equalToConstant: 48),
 
+
+            avatarImageLoadingIndicator.centerXAnchor.constraint(equalTo: avatarImageView.centerXAnchor),
+            avatarImageLoadingIndicator.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor),
+
             nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 12),
             nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
             nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: followButton.leadingAnchor, constant: -8),
@@ -91,11 +99,11 @@ class UserTableViewCell: UITableViewCell {
         self.viewModel = viewModel
         nameLabel.text = viewModel.name
         reputationBadge.text = viewModel.reputation
-        configureImage(viewModel.image)
-        configureFollowButton(followState: viewModel.followState)
+        setNeedsUpdateProperties()
     }
 
-    override func updateConfiguration(using state: UICellConfigurationState) {
+    override func updateProperties() {
+        super.updateProperties()
         guard let viewModel else { return }
         configureImage(viewModel.image)
         configureFollowButton(followState: viewModel.followState)
@@ -107,14 +115,19 @@ class UserTableViewCell: UITableViewCell {
     }
 
     private func configureImage(_ imageState: AsyncImageState) {
+        imageState == .loading
+            ? avatarImageLoadingIndicator.startAnimating()
+            : avatarImageLoadingIndicator.stopAnimating()
         switch imageState {
         case .placeholder:
             avatarImageView.image = nil
         case .loading:
             avatarImageView.image = nil
         case .available(let image):
+            avatarImageView.contentMode = .scaleAspectFill
             avatarImageView.image = image
         case .notAvailable:
+            avatarImageView.contentMode = .center
             avatarImageView.image = UIImage(systemName: "person")
         }
     }
