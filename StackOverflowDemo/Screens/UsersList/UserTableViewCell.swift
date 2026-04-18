@@ -29,7 +29,7 @@ class UserTableViewCell: UITableViewCell {
     }
 
     private func setupUI() {
-        contentView.backgroundColor = .systemBackground
+        contentView.backgroundColor = .secondarySystemGroupedBackground
 
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         avatarImageView.layer.cornerRadius = 24
