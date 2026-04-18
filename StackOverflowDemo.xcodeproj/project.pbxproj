@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		740B48E12F92E1C800B67FD9 /* ImageLoader in Frameworks */ = {isa = PBXBuildFile; productRef = 740B48E02F92E1C800B67FD9 /* ImageLoader */; };
+		7435A1B22F943E14006875AC /* NavigationLayer in Frameworks */ = {isa = PBXBuildFile; productRef = 7435A1B12F943E14006875AC /* NavigationLayer */; };
 		74953A5F2F92823A0092D854 /* NetworkLayer in Frameworks */ = {isa = PBXBuildFile; productRef = 74953A5E2F92823A0092D854 /* NetworkLayer */; };
 		7495A1002F9D4A500092D854 /* PersistenceLayer in Frameworks */ = {isa = PBXBuildFile; productRef = 7495A0FF2F9D4A500092D854 /* PersistenceLayer */; };
 /* End PBXBuildFile section */
@@ -65,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7435A1B22F943E14006875AC /* NavigationLayer in Frameworks */,
 				74953A5F2F92823A0092D854 /* NetworkLayer in Frameworks */,
 				740B48E12F92E1C800B67FD9 /* ImageLoader in Frameworks */,
 				7495A1002F9D4A500092D854 /* PersistenceLayer in Frameworks */,
@@ -146,6 +148,7 @@
 				74953A5E2F92823A0092D854 /* NetworkLayer */,
 				740B48E02F92E1C800B67FD9 /* ImageLoader */,
 				7495A0FF2F9D4A500092D854 /* PersistenceLayer */,
+				7435A1B12F943E14006875AC /* NavigationLayer */,
 			);
 			productName = StackOverflowDemo;
 			productReference = 7495398C2F9251940092D854 /* StackOverflowDemo.app */;
@@ -509,6 +512,10 @@
 		740B48E02F92E1C800B67FD9 /* ImageLoader */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ImageLoader;
+		};
+		7435A1B12F943E14006875AC /* NavigationLayer */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NavigationLayer;
 		};
 		74953A5E2F92823A0092D854 /* NetworkLayer */ = {
 			isa = XCSwiftPackageProductDependency;
