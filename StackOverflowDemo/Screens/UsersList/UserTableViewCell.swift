@@ -43,6 +43,7 @@ class UserTableViewCell: UITableViewCell {
 
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        nameLabel.adjustsFontSizeToFitWidth = true
         nameLabel.textColor = .label
         contentView.addSubview(nameLabel)
 
@@ -73,7 +74,6 @@ class UserTableViewCell: UITableViewCell {
             avatarImageView.widthAnchor.constraint(equalToConstant: 48),
             avatarImageView.heightAnchor.constraint(equalToConstant: 48),
 
-
             avatarImageLoadingIndicator.centerXAnchor.constraint(equalTo: avatarImageView.centerXAnchor),
             avatarImageLoadingIndicator.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor),
 
@@ -88,7 +88,7 @@ class UserTableViewCell: UITableViewCell {
 
             followButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             followButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            followButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 90),
+            followButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 100),
             followButton.heightAnchor.constraint(equalToConstant: 32),
 
             contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 72),
