@@ -64,12 +64,21 @@ class UsersListViewModel {
         self.snapshot = UserSnapshot()
     }
 
+    func reloadData() {
+        guard loadState != .loading else { return }
+        snapshot = UserSnapshot()
+        currentPage = 1
+        Task { try await loadData() }
+    }
+
     func loadData() async throws {
+        guard loadState != .loading else { return }
         loadState = .loading
         do {
             try await fetchUsersForCurrentPage()
             loadState = .success
         } catch {
+            snapshot = UserSnapshot()
             loadState = .error(.init(
                 message: error.localizedDescription,
                 buttonTitle: "Try Again",
@@ -79,10 +88,6 @@ class UsersListViewModel {
             ))
             throw error
         }
-    }
-
-    private func reloadData() {
-        Task { try await loadData() }
     }
 
     func notifyWillDisplayCell(at indexPath: IndexPath) {

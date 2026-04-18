@@ -12,6 +12,7 @@ class UsersListViewController: UIViewController {
 
     private var viewModel: UsersListViewModel!
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private let refreshControl = UIRefreshControl()
     private let errorView = ErrorPlaceholderView()
     private var dataSource: UITableViewDiffableDataSource<UserListSection, UserCellViewModel>!
 
@@ -34,6 +35,9 @@ class UsersListViewController: UIViewController {
         )
         tableView.delegate = self
         tableView.backgroundView = errorView
+        tableView.refreshControl = refreshControl
+
+        refreshControl.addTarget(self, action: #selector(refreshControlValueChanged), for: .valueChanged)
     }
 
     override func viewDidLoad() {
@@ -47,12 +51,19 @@ class UsersListViewController: UIViewController {
     }
 
     override func updateProperties() {
-        updateErrorPlaceholder()
+        updateErrorPlaceholder(viewModel.loadState)
+        updateLoadingState(viewModel.loadState)
         dataSource.apply(viewModel.snapshot)
     }
 
-    private func updateErrorPlaceholder() {
-        switch viewModel.loadState {
+    private func updateLoadingState(_ loadState: LoadState) {
+        loadState == .loading
+            ? refreshControl.beginRefreshing()
+            : refreshControl.endRefreshing()
+    }
+
+    private func updateErrorPlaceholder(_ loadState: LoadState) {
+        switch loadState {
         case .error(let viewModel):
             errorView.isHidden = false
             errorView.update(with: viewModel)
@@ -69,6 +80,11 @@ class UsersListViewController: UIViewController {
             return cell
         }
         dataSource.defaultRowAnimation = .fade
+    }
+
+    @objc
+    private func refreshControlValueChanged() {
+        viewModel.reloadData()
     }
 }
 
