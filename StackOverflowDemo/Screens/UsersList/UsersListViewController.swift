@@ -12,6 +12,7 @@ class UsersListViewController: UIViewController {
 
     private var viewModel: UsersListViewModel!
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private let errorView = ErrorPlaceholderView()
     private var dataSource: UITableViewDiffableDataSource<UserListSection, UserCellViewModel>!
 
     init(viewModel: UsersListViewModel) {
@@ -32,6 +33,7 @@ class UsersListViewController: UIViewController {
             forCellReuseIdentifier: UserTableViewCell.reuseIdentifier
         )
         tableView.delegate = self
+        tableView.backgroundView = errorView
     }
 
     override func viewDidLoad() {
@@ -45,7 +47,19 @@ class UsersListViewController: UIViewController {
     }
 
     override func updateProperties() {
+        updateErrorPlaceholder()
         dataSource.apply(viewModel.snapshot)
+    }
+
+    private func updateErrorPlaceholder() {
+        switch viewModel.loadState {
+        case .error(let viewModel):
+            errorView.isHidden = false
+            errorView.update(with: viewModel)
+        default:
+            errorView.isHidden = true
+            errorView.update(with: nil)
+        }
     }
 
     private func setupDataSource() {

@@ -14,6 +14,28 @@ enum UserListSection: Hashable {
     case main
 }
 
+enum LoadState: Equatable {
+    case idle
+    case loading
+    case success
+    case error(ErrorPlaceholderViewModel)
+
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case (.idle, .idle):
+            return true
+        case (.loading, .loading):
+            return true
+        case (.success, .success):
+            return true
+        case (.error(let lhsError), .error(let rhsError)):
+            return lhsError === rhsError
+        case (.idle, _), (.loading, _), (.success, _), (.error, _):
+            return false
+        }
+    }
+}
+
 typealias UserSnapshot = NSDiffableDataSourceSnapshot<UserListSection, UserCellViewModel>
 
 @Observable
@@ -29,6 +51,7 @@ class UsersListViewModel {
 
     var currentPage: Int = 1
     var snapshot: UserSnapshot = UserSnapshot()
+    var loadState: LoadState = .idle
 
     init(
         networkProvider: NetworkProvider,
@@ -42,7 +65,24 @@ class UsersListViewModel {
     }
 
     func loadData() async throws {
-        try await fetchUsersForCurrentPage()
+        loadState = .loading
+        do {
+            try await fetchUsersForCurrentPage()
+            loadState = .success
+        } catch {
+            loadState = .error(.init(
+                message: error.localizedDescription,
+                buttonTitle: "Try Again",
+                onAction: { [weak self] in
+                    self?.reloadData()
+                }
+            ))
+            throw error
+        }
+    }
+
+    private func reloadData() {
+        Task { try await loadData() }
     }
 
     func notifyWillDisplayCell(at indexPath: IndexPath) {
