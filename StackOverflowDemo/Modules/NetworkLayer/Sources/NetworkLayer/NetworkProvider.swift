@@ -7,7 +7,11 @@
 
 import Foundation
 
-public class NetworkProvider {
+public protocol NetworkProdiving {
+    func request<E: Endpoint>(_ endpoint: E) async throws -> E.ResponseType
+}
+
+public class NetworkProvider: NetworkProdiving {
 
     private let api: API
     private let session: NetworkSession

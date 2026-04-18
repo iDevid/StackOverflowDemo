@@ -45,7 +45,7 @@ class UsersListViewModel {
         static let pageSize: Int = 20
     }
 
-    private let networkProvider: NetworkProvider
+    private let networkProvider: NetworkProdiving
     private let imageLoader: ImageLoading
     private let followUserRepository: FollowedUserRepository
 
@@ -54,7 +54,7 @@ class UsersListViewModel {
     var loadState: LoadState = .idle
 
     init(
-        networkProvider: NetworkProvider,
+        networkProvider: NetworkProdiving,
         imageLoader: ImageLoading,
         followUserRepository: FollowedUserRepository
     ) {
