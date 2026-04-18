@@ -12,7 +12,18 @@
 		7495A1002F9D4A500092D854 /* PersistenceLayer in Frameworks */ = {isa = PBXBuildFile; productRef = 7495A0FF2F9D4A500092D854 /* PersistenceLayer */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		7435A0FC2F93DE5A006875AC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 749539842F9251940092D854 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7495398B2F9251940092D854;
+			remoteInfo = StackOverflowDemo;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		7435A0F82F93DE5A006875AC /* StackOverflowDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StackOverflowDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7495398C2F9251940092D854 /* StackOverflowDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StackOverflowDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -27,6 +38,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		7435A0F92F93DE5A006875AC /* StackOverflowDemoTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = StackOverflowDemoTests;
+			sourceTree = "<group>";
+		};
 		7495398E2F9251940092D854 /* StackOverflowDemo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -38,6 +54,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7435A0F52F93DE5A006875AC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		749539892F9251940092D854 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -55,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				7495398E2F9251940092D854 /* StackOverflowDemo */,
+				7435A0F92F93DE5A006875AC /* StackOverflowDemoTests */,
 				74953A5D2F92823A0092D854 /* Frameworks */,
 				7495398D2F9251940092D854 /* Products */,
 			);
@@ -64,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				7495398C2F9251940092D854 /* StackOverflowDemo.app */,
+				7435A0F82F93DE5A006875AC /* StackOverflowDemoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,6 +103,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		7435A0F72F93DE5A006875AC /* StackOverflowDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7435A0FE2F93DE5A006875AC /* Build configuration list for PBXNativeTarget "StackOverflowDemoTests" */;
+			buildPhases = (
+				7435A0F42F93DE5A006875AC /* Sources */,
+				7435A0F52F93DE5A006875AC /* Frameworks */,
+				7435A0F62F93DE5A006875AC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7435A0FD2F93DE5A006875AC /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				7435A0F92F93DE5A006875AC /* StackOverflowDemoTests */,
+			);
+			name = StackOverflowDemoTests;
+			packageProductDependencies = (
+			);
+			productName = StackOverflowDemoTests;
+			productReference = 7435A0F82F93DE5A006875AC /* StackOverflowDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		7495398B2F9251940092D854 /* StackOverflowDemo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7495399F2F9251960092D854 /* Build configuration list for PBXNativeTarget "StackOverflowDemo" */;
@@ -113,6 +161,10 @@
 				LastSwiftUpdateCheck = 2640;
 				LastUpgradeCheck = 2640;
 				TargetAttributes = {
+					7435A0F72F93DE5A006875AC = {
+						CreatedOnToolsVersion = 26.4;
+						TestTargetID = 7495398B2F9251940092D854;
+					};
 					7495398B2F9251940092D854 = {
 						CreatedOnToolsVersion = 26.4;
 					};
@@ -137,11 +189,19 @@
 			projectRoot = "";
 			targets = (
 				7495398B2F9251940092D854 /* StackOverflowDemo */,
+				7435A0F72F93DE5A006875AC /* StackOverflowDemoTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7435A0F62F93DE5A006875AC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7495398A2F9251940092D854 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -152,6 +212,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7435A0F42F93DE5A006875AC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		749539882F9251940092D854 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -161,7 +228,57 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		7435A0FD2F93DE5A006875AC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7495398B2F9251940092D854 /* StackOverflowDemo */;
+			targetProxy = 7435A0FC2F93DE5A006875AC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		7435A0FF2F93DE5A006875AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4P9Z98WQAA;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.idevid.StackOverflowDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StackOverflowDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/StackOverflowDemo";
+			};
+			name = Debug;
+		};
+		7435A1002F93DE5A006875AC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4P9Z98WQAA;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.idevid.StackOverflowDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StackOverflowDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/StackOverflowDemo";
+			};
+			name = Release;
+		};
 		749539A02F9251960092D854 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -348,6 +465,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7435A0FE2F93DE5A006875AC /* Build configuration list for PBXNativeTarget "StackOverflowDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7435A0FF2F93DE5A006875AC /* Debug */,
+				7435A1002F93DE5A006875AC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		749539872F9251940092D854 /* Build configuration list for PBXProject "StackOverflowDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

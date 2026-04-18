@@ -83,9 +83,9 @@ class UserCellViewModel: Identifiable {
             followState = .loading
             try await followUserRepository.setFollowed(shouldFollow, userId: id)
             followState = shouldFollow ? .following : .notFollowing
-        } catch {
-            print("Error Setting Follow \(shouldFollow) for: \(self.name)")
+        } catch let error {
             followState = previousState
+            throw error
         }
     }
 
