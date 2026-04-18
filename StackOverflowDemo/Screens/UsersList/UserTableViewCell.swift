@@ -23,6 +23,8 @@ class UserTableViewCell: UITableViewCell {
 
     override func prepareForReuse() {
         viewModel = nil
+        configureFollowButton(followState: .loading)
+        configureImage(.loading)
     }
 
     private func setupUI() {
@@ -53,8 +55,10 @@ class UserTableViewCell: UITableViewCell {
         var configuration = UIButton.Configuration.filled()
         configuration.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
         configuration.cornerStyle = .capsule
+        configuration.imagePadding = 4
         followButton.configuration = configuration
         followButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+        followButton.addTarget(self, action: #selector(followButtonTapped), for: .touchUpInside)
         contentView.addSubview(followButton)
     }
 
@@ -84,15 +88,22 @@ class UserTableViewCell: UITableViewCell {
     }
 
     func configure(with viewModel: UserCellViewModel) {
+        self.viewModel = viewModel
         nameLabel.text = viewModel.name
         reputationBadge.text = viewModel.reputation
-        configureFollowButton(isFollowed: viewModel.isFollowed)
-        self.viewModel = viewModel
+        configureImage(viewModel.image)
+        configureFollowButton(followState: viewModel.followState)
     }
 
-    override func updateProperties() {
+    override func updateConfiguration(using state: UICellConfigurationState) {
         guard let viewModel else { return }
         configureImage(viewModel.image)
+        configureFollowButton(followState: viewModel.followState)
+    }
+
+    @objc
+    private func followButtonTapped() {
+        Task { try await viewModel?.toggleFollow() }
     }
 
     private func configureImage(_ imageState: AsyncImageState) {
@@ -108,13 +119,30 @@ class UserTableViewCell: UITableViewCell {
         }
     }
 
-    private func configureFollowButton(isFollowed: Bool) {
-        if isFollowed {
-            followButton.setTitle("Following", for: .normal)
-            followButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
-        } else {
-            followButton.setTitle("Follow", for: .normal)
-            followButton.setImage(UIImage(systemName: "plus"), for: .normal)
+    private func configureFollowButton(followState: AsyncFollowState) {
+        let imageName: String = switch followState {
+            case .error:
+                "questionmark.circle.dashed"
+            case .following:
+                "checkmark"
+            case .notFollowing:
+                "plus"
+            case .loading:
+                ""
         }
+        let image = UIImage(systemName: imageName)
+        let title: String = switch followState {
+        case .error:
+            "N/A"
+        case .following:
+            "Following"
+        case .notFollowing:
+            "Follow"
+        case .loading:
+            ""
+        }
+        followButton.configuration?.showsActivityIndicator = followState == .loading
+        followButton.setTitle(title, for: .normal)
+        followButton.setImage(image, for: .normal)
     }
 }

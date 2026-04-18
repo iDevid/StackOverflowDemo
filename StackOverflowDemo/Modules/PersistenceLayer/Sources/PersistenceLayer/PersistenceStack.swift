@@ -25,7 +25,7 @@ public final class PersistenceStack {
         }
     }
 
-    public var followRepository: FollowedUserRepository {
+    public var followUserRepository: FollowedUserRepository {
         ConcreteFollowedUserRepository(context: container.viewContext)
     }
 }

@@ -7,6 +7,7 @@
 
 import ImageLoader
 import NetworkLayer
+import PersistenceLayer
 import UIKit
 
 enum UserListSection: Hashable {
@@ -24,13 +25,19 @@ class UsersListViewModel {
 
     private let networkProvider: NetworkProvider
     private let imageLoader: ImageLoading
+    private let followUserRepository: FollowedUserRepository
 
     var currentPage: Int = 1
     var snapshot: UserSnapshot = UserSnapshot()
 
-    init(_ networkProvider: NetworkProvider, imageLoader: ImageLoading) {
+    init(
+        networkProvider: NetworkProvider,
+        imageLoader: ImageLoading,
+        followUserRepository: FollowedUserRepository
+    ) {
         self.networkProvider = networkProvider
         self.imageLoader = imageLoader
+        self.followUserRepository = followUserRepository
         self.snapshot = UserSnapshot()
     }
 
@@ -49,7 +56,9 @@ class UsersListViewModel {
         )
         let response = try await networkProvider.request(endpoint)
         let users = response.items
-        let viewModels = users.map { UserCellViewModel(user: $0) }
+        let viewModels = users.map {
+            UserCellViewModel(user: $0, followUserRepository: followUserRepository)
+        }
         if !snapshot.sectionIdentifiers.contains(.main) {
             snapshot.appendSections([.main])
         }

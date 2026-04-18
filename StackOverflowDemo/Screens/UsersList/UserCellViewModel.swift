@@ -1,5 +1,6 @@
 import Foundation
 import ImageLoader
+import PersistenceLayer
 import UIKit
 
 enum AsyncImageState {
@@ -9,22 +10,41 @@ enum AsyncImageState {
     case notAvailable
 }
 
+enum AsyncFollowState {
+    case error
+    case following
+    case notFollowing
+    case loading
+}
+
 @Observable
 class UserCellViewModel: Identifiable {
     let id: Int
     let name: String
     let reputation: String
-    let isFollowed: Bool = Bool.random()
+    var followState: AsyncFollowState
     var image: AsyncImageState
 
     private let imageUrlString: String
+    private let followUserRepository: FollowedUserRepository
 
-    init(user: StackOverflowUser) {
+    init(user: StackOverflowUser, followUserRepository: FollowedUserRepository) {
         self.id = user.id
         self.name = user.name
         self.reputation = Self.formatReputation(user.reputation)
         self.image = .placeholder
         self.imageUrlString = user.image
+        self.followUserRepository = followUserRepository
+        self.followState = .loading
+
+        Task {
+            do {
+                let isFollowed = try await followUserRepository.isFollowed(userId: user.id)
+                self.followState = isFollowed ? .following : .notFollowing
+            } catch {
+                self.followState = .error
+            }
+        }
     }
 
     func loadImage(_ loader: ImageLoading) {
@@ -37,8 +57,22 @@ class UserCellViewModel: Identifiable {
                 )
                 self.image = .available(uiImage)
             } catch {
+                print("Error Loading Image for: \(self.name)")
                 self.image = .notAvailable
             }
+        }
+    }
+
+    func toggleFollow() async throws {
+        let previousState = followState
+        let shouldFollow = previousState == .notFollowing
+        do {
+            followState = .loading
+            try await followUserRepository.setFollowed(shouldFollow, userId: id)
+            followState = shouldFollow ? .following : .notFollowing
+        } catch {
+            print("Error Setting Follow \(shouldFollow) for: \(self.name)")
+            followState = previousState
         }
     }
 

@@ -7,11 +7,13 @@
 
 import ImageLoader
 import NetworkLayer
+import PersistenceLayer
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var persistenceStack: PersistenceStack?
 
     func scene(
         _ scene: UIScene,
@@ -20,9 +22,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
+
+        let persistenceStack = PersistenceStack()
+        let followUserRepository = persistenceStack.followUserRepository
+        self.persistenceStack = persistenceStack
         let provider = NetworkProvider(StackOverflowAPI())
         let imageLoader = ImageLoader()
-        let viewModel = UsersListViewModel(provider, imageLoader: imageLoader)
+
+        let viewModel = UsersListViewModel(
+            networkProvider: provider,
+            imageLoader: imageLoader,
+            followUserRepository: followUserRepository
+        )
         let navigationController = UINavigationController(
             rootViewController: UsersListViewController(viewModel: viewModel)
         )
