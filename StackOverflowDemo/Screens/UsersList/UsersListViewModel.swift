@@ -47,7 +47,7 @@ class UsersListViewModel {
 
     func notifyWillDisplayCell(at indexPath: IndexPath) {
         let viewModel = snapshot.itemIdentifiers[indexPath.row]
-        viewModel.loadImage(imageLoader)
+        viewModel.loadImageIfNeeded(imageLoader)
     }
 
     private func fetchUsersForCurrentPage() async throws {

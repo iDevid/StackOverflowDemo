@@ -3,11 +3,20 @@ import ImageLoader
 import PersistenceLayer
 import UIKit
 
-enum AsyncImageState {
+enum AsyncImageState: Equatable {
     case placeholder
     case loading
     case available(UIImage)
     case notAvailable
+
+    var isAvailableOrLoading: Bool {
+        switch self {
+        case .available, .loading:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 enum AsyncFollowState {
@@ -47,7 +56,8 @@ class UserCellViewModel: Identifiable {
         }
     }
 
-    func loadImage(_ loader: ImageLoading) {
+    func loadImageIfNeeded(_ loader: ImageLoading) {
+        guard !image.isAvailableOrLoading else { return }
         Task {
             image = .loading
             do {
