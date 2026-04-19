@@ -155,9 +155,9 @@ class UserTableViewCell: UITableViewCell {
         case .error:
             "N/A"
         case .following:
-            "Following"
+            String(localized: .Localization.userListCellFollowing)
         case .notFollowing:
-            "Follow"
+            String(localized: .Localization.userListCellFollow)
         case .loading:
             ""
         }

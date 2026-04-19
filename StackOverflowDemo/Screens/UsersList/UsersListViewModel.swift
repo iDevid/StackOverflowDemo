@@ -80,8 +80,10 @@ class UsersListViewModel {
         } catch {
             snapshot = UserSnapshot()
             loadState = .error(.init(
-                message: error.localizedDescription,
-                buttonTitle: "Try Again",
+                message: String(localized: .Localization.usersListErrorTitle(
+                    message: error.localizedDescription
+                )),
+                buttonTitle: String(localized: .Localization.usersListErrorRetry),
                 onAction: { [weak self] in
                     self?.reloadData()
                 }

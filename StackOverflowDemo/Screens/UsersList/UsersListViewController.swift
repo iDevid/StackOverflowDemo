@@ -27,7 +27,7 @@ class UsersListViewController: UIViewController {
 
     override func loadView() {
         view = tableView
-        title = "Users"
+        title = String(localized: .Localization.usersListTitle)
 
         tableView.register(
             UserTableViewCell.self,
