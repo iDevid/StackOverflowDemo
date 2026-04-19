@@ -10,7 +10,7 @@ import UIKit
 
 class UsersListViewController: UIViewController {
 
-    private var viewModel: UsersListViewModel!
+    private var viewModel: UsersListViewModel
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     private let refreshControl = UIRefreshControl()
     private let errorView = ErrorPlaceholderView()
