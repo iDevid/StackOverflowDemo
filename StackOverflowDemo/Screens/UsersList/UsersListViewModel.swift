@@ -14,7 +14,7 @@ enum UserListSection: Hashable {
     case main
 }
 
-enum LoadState: Equatable {
+enum UsersListState: Equatable {
     case idle
     case loading
     case success
@@ -51,7 +51,8 @@ class UsersListViewModel {
 
     var currentPage: Int = 1
     var snapshot: UserSnapshot = UserSnapshot()
-    var loadState: LoadState = .idle
+
+    var state: UsersListState = .idle
 
     init(
         networkProvider: NetworkProdiving,
@@ -65,21 +66,21 @@ class UsersListViewModel {
     }
 
     func reloadData() {
-        guard loadState != .loading else { return }
+        guard state != .loading else { return }
         snapshot = UserSnapshot()
         currentPage = 1
         Task { try await loadData() }
     }
 
     func loadData() async throws {
-        guard loadState != .loading else { return }
-        loadState = .loading
+        guard state != .loading else { return }
+        state = .loading
         do {
             try await fetchUsersForCurrentPage()
-            loadState = .success
+            state = .success
         } catch {
             snapshot = UserSnapshot()
-            loadState = .error(.init(
+            state = .error(.init(
                 message: String(localized: .Localization.usersListErrorTitle(
                     message: error.localizedDescription
                 )),

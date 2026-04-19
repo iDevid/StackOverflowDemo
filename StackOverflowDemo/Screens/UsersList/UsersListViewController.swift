@@ -51,19 +51,19 @@ class UsersListViewController: UIViewController {
     }
 
     override func updateProperties() {
-        updateErrorPlaceholder(viewModel.loadState)
-        updateLoadingState(viewModel.loadState)
+        updateErrorPlaceholder(viewModel.state)
+        updateLoadingState(viewModel.state)
         dataSource.apply(viewModel.snapshot)
     }
 
-    private func updateLoadingState(_ loadState: LoadState) {
-        loadState == .loading
+    private func updateLoadingState(_ state: UsersListState) {
+        state == .loading
             ? refreshControl.beginRefreshing()
             : refreshControl.endRefreshing()
     }
 
-    private func updateErrorPlaceholder(_ loadState: LoadState) {
-        switch loadState {
+    private func updateErrorPlaceholder(_ state: UsersListState) {
+        switch state {
         case .error(let viewModel):
             errorView.isHidden = false
             errorView.update(with: viewModel)
