@@ -17,7 +17,7 @@ enum UserListSection: Hashable {
 enum UsersListState: Equatable {
     case idle
     case loading
-    case success
+    case list
     case error(ErrorPlaceholderViewModel)
 
     static func == (lhs: Self, rhs: Self) -> Bool {
@@ -26,11 +26,11 @@ enum UsersListState: Equatable {
             return true
         case (.loading, .loading):
             return true
-        case (.success, .success):
+        case (.list, .list):
             return true
         case (.error(let lhsError), .error(let rhsError)):
             return lhsError === rhsError
-        case (.idle, _), (.loading, _), (.success, _), (.error, _):
+        case (.idle, _), (.loading, _), (.list, _), (.error, _):
             return false
         }
     }
@@ -49,8 +49,8 @@ class UsersListViewModel {
     private let imageLoader: ImageLoading
     private let followUserRepository: FollowedUserRepository
 
-    var currentPage: Int = 1
-    var snapshot: UserSnapshot = UserSnapshot()
+    @ObservationIgnored var currentPage: Int = 1
+    @ObservationIgnored var snapshot: UserSnapshot = UserSnapshot()
 
     var state: UsersListState = .idle
 
@@ -77,7 +77,7 @@ class UsersListViewModel {
         state = .loading
         do {
             try await fetchUsersForCurrentPage()
-            state = .success
+            state = .list
         } catch {
             snapshot = UserSnapshot()
             state = .error(.init(
