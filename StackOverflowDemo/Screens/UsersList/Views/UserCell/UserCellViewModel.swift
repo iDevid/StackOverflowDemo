@@ -27,7 +27,7 @@ enum AsyncFollowState {
 }
 
 @Observable
-class UserCellViewModel: Identifiable {
+final class UserCellViewModel: Identifiable {
     let id: Int
     let name: String
     let reputation: String

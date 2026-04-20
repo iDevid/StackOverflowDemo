@@ -17,8 +17,8 @@ enum UserListSection: Hashable {
 enum UsersListState: Equatable {
     case idle
     case loading
-    case list
-    case error(ErrorPlaceholderViewModel)
+    case list(UserSnapshot)
+    case error(ErrorPlaceholderViewModel, UserSnapshot?)
 
     static func == (lhs: Self, rhs: Self) -> Bool {
         switch (lhs, rhs) {
@@ -28,10 +28,21 @@ enum UsersListState: Equatable {
             return true
         case (.list, .list):
             return true
-        case (.error(let lhsError), .error(let rhsError)):
+        case (.error(let lhsError, _), .error(let rhsError, _)):
             return lhsError === rhsError
         case (.idle, _), (.loading, _), (.list, _), (.error, _):
             return false
+        }
+    }
+
+    var snapshot: UserSnapshot? {
+        switch self {
+        case .list(let snapshot):
+            return snapshot
+        case .error(_, let snapshot):
+            return snapshot
+        default:
+            return nil
         }
     }
 }
@@ -50,7 +61,6 @@ class UsersListViewModel {
     private let followUserRepository: FollowedUserRepository
 
     @ObservationIgnored var currentPage: Int = 1
-    @ObservationIgnored var snapshot: UserSnapshot = UserSnapshot()
 
     var state: UsersListState = .idle
 
@@ -62,25 +72,33 @@ class UsersListViewModel {
         self.networkProvider = networkProvider
         self.imageLoader = imageLoader
         self.followUserRepository = followUserRepository
-        self.snapshot = UserSnapshot()
     }
 
     func reloadData() {
         guard state != .loading else { return }
-        snapshot = UserSnapshot()
         currentPage = 1
-        Task { try await loadData() }
+        Task { try await loadData(isReloading: true) }
     }
 
-    func loadData() async throws {
+    func notifyViewWillAppear() {
+        guard state == .idle else { return }
+        Task { try await loadData(isReloading: false) }
+    }
+
+    func notifyWillDisplayCell(at indexPath: IndexPath) {
+        let viewModel = state.snapshot?.itemIdentifiers[indexPath.row]
+        viewModel?.loadImageIfNeeded(imageLoader)
+    }
+
+    private func loadData(isReloading: Bool) async throws {
         guard state != .loading else { return }
+        let currentSnapshot = isReloading ? UserSnapshot() : state.snapshot
         state = .loading
         do {
-            try await fetchUsersForCurrentPage()
-            state = .list
+            let snapshot = try await loadSnapshot(current: currentSnapshot)
+            state = .list(snapshot)
         } catch {
-            snapshot = UserSnapshot()
-            state = .error(.init(
+            let erroViewModel = ErrorPlaceholderViewModel(
                 message: String(localized: .Localization.usersListErrorTitle(
                     message: error.localizedDescription
                 )),
@@ -88,28 +106,33 @@ class UsersListViewModel {
                 onAction: { [weak self] in
                     self?.reloadData()
                 }
-            ))
+            )
+            state = .error(
+                erroViewModel,
+                UserSnapshot()
+            )
             throw error
         }
     }
 
-    func notifyWillDisplayCell(at indexPath: IndexPath) {
-        let viewModel = snapshot.itemIdentifiers[indexPath.row]
-        viewModel.loadImageIfNeeded(imageLoader)
-    }
-
-    private func fetchUsersForCurrentPage() async throws {
-        let endpoint = StackOverflowUsersEndpoint(
-            request: .init(page: currentPage, pageSize: Constants.pageSize)
-        )
-        let response = try await networkProvider.request(endpoint)
-        let users = response.items
-        let viewModels = users.map {
-            UserCellViewModel(user: $0, followUserRepository: followUserRepository)
-        }
+    private func loadSnapshot(current: UserSnapshot?) async throws -> UserSnapshot {
+        let viewModels = try await fetchUsersPage(currentPage)
+        var snapshot: UserSnapshot = current ?? UserSnapshot()
         if !snapshot.sectionIdentifiers.contains(.main) {
             snapshot.appendSections([.main])
         }
         snapshot.appendItems(viewModels, toSection: .main)
+        return snapshot
+    }
+
+    private func fetchUsersPage(_ page: Int) async throws -> [UserCellViewModel] {
+        let endpoint = StackOverflowUsersEndpoint(
+            request: .init(page: page, pageSize: Constants.pageSize)
+        )
+        let response = try await networkProvider.request(endpoint)
+        let users = response.items
+        return users.map {
+            UserCellViewModel(user: $0, followUserRepository: followUserRepository)
+        }
     }
 }

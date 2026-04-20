@@ -47,13 +47,15 @@ class UsersListViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Task { try await viewModel.loadData() }
+        viewModel.notifyViewWillAppear()
     }
 
     override func updateProperties() {
         updateErrorPlaceholder(viewModel.state)
         updateLoadingState(viewModel.state)
-        dataSource.apply(viewModel.snapshot)
+        if let snapshot = viewModel.state.snapshot {
+            dataSource.apply(snapshot)
+        }
     }
 
     private func updateLoadingState(_ state: UsersListState) {
@@ -64,7 +66,7 @@ class UsersListViewController: UIViewController {
 
     private func updateErrorPlaceholder(_ state: UsersListState) {
         switch state {
-        case .error(let viewModel):
+        case .error(let viewModel, _):
             errorView.isHidden = false
             errorView.update(with: viewModel)
         default:
@@ -74,12 +76,15 @@ class UsersListViewController: UIViewController {
     }
 
     private func setupDataSource() {
-        dataSource = UITableViewDiffableDataSource<UserListSection, UserCellViewModel>(tableView: tableView) { tableView, indexPath, viewModel in
+        dataSource = UITableViewDiffableDataSource<UserListSection, UserCellViewModel>(
+            tableView: tableView
+        ) { tableView, indexPath, viewModel in
             let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.reuseIdentifier, for: indexPath) as! UserTableViewCell
             cell.configure(with: viewModel)
             return cell
         }
         dataSource.defaultRowAnimation = .fade
+        dataSource.applySnapshotUsingReloadData(UserSnapshot())
     }
 
     @objc
