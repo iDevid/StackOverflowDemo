@@ -33,7 +33,7 @@ import Foundation
     }
 
     @Test func verifyURLWithVersionedAPI() throws {
-        struct VersionedAPI: API {
+        struct VersionedAPI: NetworkBaseAPI {
             let base: URL = URL(string: "https://api.com/2.0/")!
         }
 

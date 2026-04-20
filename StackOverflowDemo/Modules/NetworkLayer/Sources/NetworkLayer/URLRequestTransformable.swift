@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol URLRequestTransformable {
-    func getRequest(withAPI api: API) throws -> URLRequest
+    func getRequest(withAPI api: NetworkBaseAPI) throws -> URLRequest
 }
 
 public enum URLRequestTransformableError: Error {
@@ -17,7 +17,7 @@ public enum URLRequestTransformableError: Error {
 }
 
 public extension Endpoint {
-    func getRequest(withAPI api: API) throws -> URLRequest {
+    func getRequest(withAPI api: NetworkBaseAPI) throws -> URLRequest {
         let url = try getURL(withAPI: api)
         var request = URLRequest(url: url, cachePolicy: self.cachePolicy)
         request.httpMethod = self.method.rawValue
@@ -27,7 +27,7 @@ public extension Endpoint {
         return request
     }
 
-    func getURL(withAPI api: API) throws -> URL {
+    func getURL(withAPI api: NetworkBaseAPI) throws -> URL {
         guard var components = URLComponents(url: api.base, resolvingAgainstBaseURL: true) else {
             throw URLRequestTransformableError.baseURLNotValid
         }

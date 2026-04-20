@@ -8,6 +8,6 @@
 import Foundation
 import NetworkLayer
 
-struct StackOverflowAPI: API {
+struct StackOverflowAPI: NetworkBaseAPI {
     let base: URL = URL(string: "https://api.stackexchange.com/2.2/")!
 }

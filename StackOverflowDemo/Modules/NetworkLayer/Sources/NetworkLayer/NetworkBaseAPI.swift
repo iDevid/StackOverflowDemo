@@ -1,5 +1,5 @@
 //
-//  API.swift
+//  NetworkBaseAPI.swift
 //  NetworkLayer
 //
 //  Created by Davide Sibilio on 17/04/26.
@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol API {
+public protocol NetworkBaseAPI {
     var base: URL { get }
 }

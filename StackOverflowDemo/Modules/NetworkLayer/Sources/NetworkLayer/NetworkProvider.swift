@@ -13,10 +13,10 @@ public protocol NetworkProdiving {
 
 public class NetworkProvider: NetworkProdiving {
 
-    private let api: API
+    private let api: NetworkBaseAPI
     private let session: NetworkSession
 
-    public init(_ api: API, session: NetworkSession = URLSession.shared) {
+    public init(_ api: NetworkBaseAPI, session: NetworkSession = URLSession.shared) {
         self.api = api
         self.session = session
     }
